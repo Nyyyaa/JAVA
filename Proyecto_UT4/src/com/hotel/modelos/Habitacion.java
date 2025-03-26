@@ -11,7 +11,7 @@ public class Habitacion {
         this.numero = numero;
         this.tipo = tipo;
         this.precioPorNoche = precioPorNoche;
-        this.estado = EstadoHabitacion.DISPONIBLE; // Por defecto, la habitación está disponible
+        this.estado = EstadoHabitacion.DISPONIBLE;
         this.descripcion = descripcion;
     }
 
