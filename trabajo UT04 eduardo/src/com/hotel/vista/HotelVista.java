@@ -5,6 +5,8 @@ import java.util.*;
 
 import com.hotel.controlador.ReservaControl;
 import com.hotel.modelo.Cliente;
+import com.hotel.modelo.EstadoHabitacion;
+import com.hotel.modelo.Habitacion;
 import com.hotel.modelo.Reserva;
 
 
@@ -18,12 +20,15 @@ public class HotelVista {
     }
     
     public void mostrarMenu() {
-        int opcion;
+        int opcion; 
         do {
             System.out.println("\nMenú del Hotel:");
             System.out.println("1. Registrar cliente");
             System.out.println("2. Crear reserva");
-            System.out.println("3. Salir");
+            System.out.println("3. Ver habitaciones disponibles");
+            System.out.println("4. Ver información de los clientes");
+            System.out.println("5. Ver información de una reserva");
+            System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
             sc.nextLine();
@@ -39,21 +44,45 @@ public class HotelVista {
                 case 2:
                     System.out.print("Ingrese el ID del cliente: ");
                     String clienteId = sc.nextLine();
+                    Cliente clienteReserva = controlador.buscarClientePorId(clienteId);
+                    if (clienteReserva == null) {
+                        System.out.println("Cliente no encontrado.");
+                        break;
+                    }
+                    
                     System.out.print("Ingrese el número de habitación: ");
                     int numHabitacion = sc.nextInt();
-                    System.out.print("Ingrese la fecha de check-in (DD-MM-YYYY): ");
+                    Habitacion habitacion = controlador.buscarHabitacionPorNumero(numHabitacion);
+                    if (habitacion == null || habitacion.getEstado() != EstadoHabitacion.DISPONIBLE) {
+                        System.out.println("La habitación no está disponible.");
+                        break;
+                    }
+                    
+                    System.out.print("Ingrese la fecha de check-in (YYYY-MM-DD): ");
                     LocalDate checkIn = LocalDate.parse(sc.next());
-                    System.out.print("Ingrese la fecha de check-out (DD-MM-YYYY): ");
+                    System.out.print("Ingrese la fecha de check-out (YYYY-MM-DD): ");
                     LocalDate checkOut = LocalDate.parse(sc.next());
-                    Reserva reserva = controlador.crearReserva(clienteId, numHabitacion, checkIn, checkOut);
-                    System.out.println("Reserva creada con éxito. ID: " + reserva);
+                    
+                    Reserva reserva = controlador.crearReserva(clienteReserva, habitacion, checkIn, checkOut);
+                    System.out.println("Reserva creada con éxito. ID: " + reserva.getId());
                     break;
                 case 3:
+                    controlador.listarHabitacionesDisponibles();
+                    break;
+                case 4:
+                    controlador.listarClientes();
+                    break;
+                case 5:
+                    System.out.print("Ingrese el ID de la reserva: ");
+                    String reservaId = sc.nextLine();
+                    controlador.verReserva(reservaId);
+                    break;
+                case 6:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 3);
+        } while (opcion != 6);
     }
 }

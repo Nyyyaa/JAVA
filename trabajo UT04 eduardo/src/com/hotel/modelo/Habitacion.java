@@ -32,4 +32,10 @@ public class Habitacion {
     public int getPrecioPorNoche() {
         return tipo.getPrecio();
     }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
 }
+
+

@@ -26,25 +26,55 @@ public class ReservaControl {
     public void registrarCliente(Cliente cliente) {
         clientes.add(cliente);
     }
+    
+    // Método para buscar un cliente por su ID
+    public Cliente buscarClientePorId(String id) {
+        return clientes.stream()
+                       .filter(c -> c.getId().equals(id))
+                       .findFirst()
+                       .orElse(null); // Retorna null si no se encuentra el cliente
+    }
 
-    public Reserva crearReserva(String clienteId, int numHabitacion, LocalDate checkIn, LocalDate checkOut) {
-        Cliente cliente = clientes.stream()
-                .filter(c -> c.getId().equals(clienteId))
+    // Método para buscar una habitación por su número
+    public Habitacion buscarHabitacionPorNumero(int numero) {
+        return habitaciones.stream()
+                           .filter(h -> h.getNumero() == numero)
+                           .findFirst()
+                           .orElse(null); // Retorna null si no se encuentra la habitación
+    }
+    
+    // Método para listar las habitaciones disponibles
+    public void listarHabitacionesDisponibles() {
+        habitaciones.stream()
+                    .filter(h -> h.getEstado() == EstadoHabitacion.DISPONIBLE)
+                    .forEach(h -> System.out.println("Habitación " + h.getNumero() + " - " + h.getTipo()));
+    }
+    
+    // Método para listar los clientes registrados
+    public void listarClientes() {
+        clientes.forEach(c -> {
+            System.out.println("Cliente: " + c.getNombre() + " (ID: " + c.getId() + ")");
+        });
+    }
+    
+    // Método para ver una reserva
+    public void verReserva(String reservaId) {
+        reservas.stream()
+                .filter(r -> r.getId().equals(reservaId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+                .ifPresentOrElse(r -> System.out.println("Reserva ID: " + r.getId() + ", Cliente: " + r.getCliente().getNombre() + ", Habitación: " + r.getHabitacion().getNumero()),
+                                 () -> System.out.println("Reserva no encontrada"));
+    }
     
-        // Debug: Ver qué habitaciones hay disponibles antes de buscar
-        System.out.println("Habitaciones disponibles antes de la reserva:");
-        habitaciones.forEach(h -> System.out.println("Hab: " + h.getNumero() + " Estado: " + h.getEstado()));
-    
-        Habitacion habitacion = habitaciones.stream()
-                .filter(h -> h.getNumero() == numHabitacion && h.getEstado() == EstadoHabitacion.DISPONIBLE)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Habitación no disponible"));
-    
-        Reserva reserva = new Reserva(habitacion, cliente, checkIn, checkOut);
-        reservas.add(reserva);
-        cliente.agregarReserva(reserva);
-        return reserva;
+    // Método para crear una nueva reserva
+    public Reserva crearReserva(Cliente cliente, Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) {
+        if (habitacion.getEstado() != EstadoHabitacion.DISPONIBLE) {
+            throw new IllegalArgumentException("Habitación no disponible");
+        }
+        Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
+        cliente.agregarReserva(nuevaReserva);
+        reservas.add(nuevaReserva);
+        System.out.println("Reserva creada con éxito. ID: " + nuevaReserva.getId());
+        return nuevaReserva;
     }
 }

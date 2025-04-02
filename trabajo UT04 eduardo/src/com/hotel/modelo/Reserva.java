@@ -42,4 +42,28 @@ public class Reserva {
         }
         habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
     }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public Cliente getCliente() {
+        return cliente;
+    }
+    
+    public Habitacion getHabitacion() {
+        return habitacion;
+    }
+    
+    public LocalDate getCheckIn() {
+        return checkIn;
+    }
+    
+    public LocalDate getCheckOut() {
+        return checkOut;
+    }
+    
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
 }
