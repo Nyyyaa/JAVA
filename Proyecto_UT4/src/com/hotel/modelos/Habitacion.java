@@ -4,15 +4,13 @@ public class Habitacion {
     private int numero;
     private TipoHabitacion tipo;
     private EstadoHabitacion estado;
-    private String descripcion;
     private double precioPorNoche;
 
-    public Habitacion(int numero, TipoHabitacion tipo, double precioPorNoche, String descripcion) {
+    public Habitacion(int numero, TipoHabitacion tipo, double precioPorNoche) {
         this.numero = numero;
         this.tipo = tipo;
         this.precioPorNoche = precioPorNoche;
         this.estado = EstadoHabitacion.DISPONIBLE;
-        this.descripcion = descripcion;
     }
 
     // Getters
@@ -26,10 +24,6 @@ public class Habitacion {
 
     public EstadoHabitacion getEstado() {
         return estado;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
     }
 
     public double getPrecioPorNoche() {
@@ -52,10 +46,6 @@ public class Habitacion {
         this.estado = estado;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public void setPrecioPorNoche(double precioPorNoche) {
         if (precioPorNoche < 0) {
             throw new IllegalArgumentException("El precio por noche no puede ser negativo.");
@@ -75,7 +65,6 @@ public class Habitacion {
     public String mostrarInformacion() {
         return "Habitación " + numero +
                " [" + tipo + "] Estado: " + estado +
-               ", Precio por noche: " + precioPorNoche +
-               ", Descripción: " + descripcion;
+               ", Precio por noche: " + precioPorNoche;
     }
 }
