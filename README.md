@@ -3,6 +3,8 @@ En este proyecto hemos creado un sistema de reserva de habitaciones de un hotel.
 -Segunda planta: habitaciones dobles, habitaciones del 201 al 205, precio a 80€.
 -Tercera planta: habitaciones suite, habitaciones del 301 al 305, precio a 150€.
 
+A la hora de crear una reserva, dependiendo de la cantidad de días que se hospede el usuario, le dará el precio total por noche.
+
 Hemos creado un menu con 6 opciones diferentes:
 1.Crear reserva - Nos pedira que ingresemos el numero de reserva, el numero de la habitacion, la fecha de check-in, la fecha de check-out y el nombre del cliente.
 2.Cancelar reserva - Nos pide el ID de la reserva creada, una vez puesto se nos cancelara.
